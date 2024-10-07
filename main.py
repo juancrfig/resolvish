@@ -37,10 +37,29 @@ def login(credentials):
     # Use JavaScript to click the button
     browser.execute_script("arguments[0].click();", button)
 
+    return browser
+
+
+def check_assignments(browser):
+
+    span_element = WebDriverWait(browser, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//span[contains(text(), '(')]"))
+        )
+    # Get the text of the span element
+    span_text = span_element.text.strip()
+    # Extract the number from the text
+    number = int(span_text.replace('(', '').replace(')', '').strip())
+    # Check if the number is equal to 2
+    if number > 0:
+        print("The number is 2, performing the action...")
+        # Place your action here, e.g., clicking a button or logging in
+    else:
+        print(f"The number is {number}, no action performed.")
     # Keep the browser open for debugging or testing
     input("Press Enter to close the browser...")
 
 
 if __name__ == '__main__':
     
-    login(credentials)
+    browser = login(credentials)
+    check_assignments(browser)
